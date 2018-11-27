@@ -12,16 +12,17 @@ d3.tsv("/../data/age.tsv").then(function(data){
     .attr("width", 1000)
     .attr("height", 1000);
 
-    var circles = svg.selectAll('circle')
+    var circles = svg.selectAll('rect')
         .data(data)
         .enter()
-        .append('circle')
-        .attr('cx', (d, i) => {
+        .append('rect')
+        .attr('x', (d, i) => {
             console.log(d);
             return (i*100)+25;
         })
-        .attr('cy', 400)
-        .attr('r', (d, i) => {return d.age*0.5})
+        .attr('y', 400)
+        .attr('height', (d, i) => {return d.age*1})
+        .attr('width', (d, i) => {return 75})
         .attr('fill', function(d){
             if (d.name == 'Broo'){
                 return "blue";
