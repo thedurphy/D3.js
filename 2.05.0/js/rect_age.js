@@ -3,11 +3,14 @@
 *    Mastering Data Visualization with D3.js
 *    2.5 - Activity: Adding SVGs to the screen
 */
+var lol = "ffafafafaaf";
+console.log(lol);
+
 d3.tsv("/../data/age.tsv").then(function(data){
     data.forEach(function(d){
         d.age = +d.age;
     });
-
+    console.log(data);
     var svg = d3.select('#chart-area').append('svg')
     .attr("width", 1000)
     .attr("height", 1000);
@@ -25,7 +28,7 @@ d3.tsv("/../data/age.tsv").then(function(data){
         .attr('width', (d, i) => {return 75})
         .attr('fill', function(d){
             if (d.name == 'Broo'){
-                return "blue";
+                return "green";
             }
             else {
                 return "red";

@@ -24,7 +24,7 @@ d3.tsv("/../data/age.tsv").then(function(data){
         .attr('r', (d, i) => {return d.age*0.5})
         .attr('fill', function(d){
             if (d.name == 'Broo'){
-                return "blue";
+                return "green";
             }
             else {
                 return "red";
