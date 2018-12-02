@@ -1,10 +1,11 @@
 <!doctype html>
 <html>
 <head>
+    {% block head %}
     <meta charset="utf-8">
     <meta name="description" content="">
     <meta id='data' data-data="{{ data.to_csv(index=False) }}">
-    <title>WTF 2.5 - Activity: Adding SVGs to the screen</title>
+    <title>{% block title %}{% endblock %}</title>
     <!-- Bootstrap -->
     <link rel="stylesheet" href="static/css/bootstrap.min.css">
     <!-- Custom styling -->
@@ -14,19 +15,15 @@
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <script src="static/js/jquery-3.3.1.min.js"></script>
     <!-- Custom JS -->
+    <script>
+            var temp = $('#data').data()['data'];
+            var data = d3.csvParse(temp)
+        </script>    
+    {% endblock %}
 </head>
 
 <body>
-    <!-- Bootstrap grid setup -->
-    <div class="container">
-        <div class="row">
-            <div id="chart-area"></div>
-        </div>
-    </div>
-    <script>
-        var temp = $('#data').data()['data'];
-        var data = d3.csvParse(temp)
-    </script>
-    <script src="static/js/buildings.js"></script>
+    {% block content %}
+    {% endblock %}
 </body>
 </html>

@@ -4,7 +4,8 @@
 *    2.5 - Activity: Adding SVGs to the screen
 */
 
-
+var xVar = 'name'
+var yVar = 'height'
 
 var margin = { left:200, right:10, top:10, bottom:200 };
 width = 800 - margin.left - margin.right;
@@ -27,18 +28,18 @@ g.append("text")
         
 
 data.forEach(d => {
-    d.height = +d.height;
+    d[yVar] = +d[yVar];
 });
 
 var x = d3.scaleBand()
-    .domain(data.map((d) => {return d['name']}))
+    .domain(data.map((d) => {return d[xVar]}))
     .range([0, width])
     .paddingInner(0.3)
     .paddingOuter(0.3);
 
 var y = d3.scaleLinear()
     .domain([0, d3.max(data, (d) => {
-        return d['height']
+        return d[yVar]
     })])
     .range([height, 0]);
 
@@ -69,14 +70,14 @@ var rects = g.selectAll("rect")
     .enter()
     .append("rect")
     .attr("y", (d) => { 
-        return y(d.height)
+        return y(d[yVar])
     })
     .attr("x", function(d, i){
-        return x(d.name);
+        return x(d[xVar]);
     })
     .attr("width", x.bandwidth)
     .attr("height", (d) => {
-        return height-y(d['height'])
+        return height-y(d[yVar])
     })
     .attr("fill", function(d){
         return "blue";

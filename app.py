@@ -8,13 +8,13 @@ app = Flask(__name__)
 def lesson22_buildings():
     data = json.load(open("static/data/buildings.json"))
     data = pd.DataFrame(data)
-    return render_template('lesson22_buildings.html', data = data)
+    return render_template('projects/lesson22_buildings.html', data = data)
 
 @app.route('/lesson23_coffee_project')
 def lesson23_coffee_project():
     data = json.load(open("static/data/buildings.json"))
     data = pd.DataFrame(data)
-    return render_template('lesson23_coffee_project.html', data = data)
+    return render_template('projects/lesson23_coffee_project.html', data = data)
 
 if __name__ == '__main__':
     app.run(port=3000, debug=True, threaded=True)
