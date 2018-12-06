@@ -4,6 +4,10 @@ import json
 from flask import Flask, render_template
 app = Flask(__name__)
 
+@app.route('/')
+def skills():
+    return render_template('projects/skillz.html')
+
 @app.route('/lesson22_buildings')
 def lesson22_buildings():
     data = json.load(open("static/data/buildings.json"))

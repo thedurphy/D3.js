@@ -13,6 +13,11 @@
             <div id="chart-area"></div>
         </div>
     </div>
-    <script src="static/js/buildings.js"></script>
+    <script src="static/js/projects/lesson22_buildings.js"></script>
 </body>
+    <!-- Custom JS -->
+    <script>
+        var temp = $('#data').data()['data'];
+        bar2d('name', 'height', temp, d3.csvParse);
+    </script>
 {% endblock %}
