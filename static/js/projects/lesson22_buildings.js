@@ -8,10 +8,13 @@
 function bar2d(xVar, 
                yVar, 
                data, 
-               parser=d3.csvParse)
+               parser=d3.csvParse,
+               bar_color='green',
+               xLabel = xVar,
+               yLabel = yVar)
                {
     var data = parser(data);
-    var margin = { left:200, right:10, top:10, bottom:200 };
+    var margin = { left:200, right:10, top:10, bottom:150 };
     var width = 800 - margin.left - margin.right;
     var height = 600 - margin.top - margin.bottom;
     var g = d3.select('#chart-area')
@@ -21,13 +24,7 @@ function bar2d(xVar,
             .append("g")
                 .attr("transform", "translate(" + margin.left + ", " + margin.top + ")");
     
-    g.append("text")
-        .attr('class', 'x-axis label')
-        .attr("x", width / 2)
-        .attr("y", height + 140)
-        .attr("font-size", "20px")
-        .attr("text-anchor", "middle")
-        .text("World's Tallest Buildings");
+
             
     
     data.forEach(d => {
@@ -67,7 +64,6 @@ function bar2d(xVar,
         .attr("transform", "translate(0, 0)")
         .call(yAxisCall);
     
-    
     var rects = g.selectAll("rect")
         .data(data)
         .enter()
@@ -83,6 +79,26 @@ function bar2d(xVar,
             return height-y(d[yVar])
         })
         .attr("fill", function(d){
-            return "blue";
-        })  
+            return bar_color;
+        });
+
+    var x_border = d3.select("g.x-axis").node().getBoundingClientRect().height;
+    var y_border = d3.select("g.y-axis").node().getBoundingClientRect().width;
+    
+    g.append("text")
+        .attr('class', 'x axis-label')
+        .attr("x", width / 2)
+        .attr("y", height + x_border + 16)
+        .attr("font-size", "20px")
+        .attr("text-anchor", "middle")
+        .text(xLabel);
+    
+    g.append("text")
+        .attr('class', 'y axis-label')
+        .attr("x", -(height/2))
+        .attr("y", -y_border-8)
+        .attr("font-size", "20px")
+        .attr("text-anchor", "middle")
+        .attr("transform", "rotate(-90)")
+        .text(yLabel);
 }

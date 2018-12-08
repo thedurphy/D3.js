@@ -1,15 +1,11 @@
-<!doctype html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta name="description" content="">
-    <title>Star Break Coffee</title>
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <!-- Custom styling -->
-    <link rel="stylesheet" href="css/style.css">
-</head>
-
+{% extends "base.html" %}
+{% block title %}
+    Lesson 22: Buildings Bar Plot
+{% endblock %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
 <body>
 
     <nav class="navbar navbar-default">
@@ -24,14 +20,15 @@
             <div id="chart-area"></div>
         </div>
     </div>
-
-<!-- External JS libraries -->
-<script src="js/d3.min.js"></script>
-<!-- Custom JS -->
-<script src="js/main.js"></script>
-
+    <script src="static/js/projects/lesson22_buildings.js"></script>
 </body>
-</html>
+    <!-- Custom JS -->
+    <script>
+        var temp = $('#data').data()['data'];
+        bar2d('month', 'revenue', temp, d3.csvParse,
+              'blue', 'Month', 'Revenue');
+    </script>
+{% endblock %}
 
 
 

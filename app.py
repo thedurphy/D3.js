@@ -16,7 +16,7 @@ def lesson22_buildings():
 
 @app.route('/lesson23_coffee_project')
 def lesson23_coffee_project():
-    data = json.load(open("static/data/buildings.json"))
+    data = json.load(open("static/data/revenues.json"))
     data = pd.DataFrame(data)
     return render_template('projects/lesson23_coffee_project.html', data = data)
 
