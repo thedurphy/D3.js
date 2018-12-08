@@ -1,12 +1,19 @@
+import os
 import pandas as pd
 import numpy as np
 import json
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect
 app = Flask(__name__)
 
 @app.route('/')
-def skills():
-    return render_template('projects/skillz.html')
+def home():
+    print(os.getcwd())
+    template_list = [i.split('.')[0] for i in os.listdir(os.getcwd()+'\\templates\\projects')]
+    return render_template('projects/skillz.html', template_list = template_list)
+
+@app.route('/skillz')
+def skillz():
+    return redirect('/')
 
 @app.route('/lesson22_buildings')
 def lesson22_buildings():

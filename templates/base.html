@@ -20,5 +20,12 @@
 <body>
     {% block content %}
     {% endblock %}
+    {% block routes %}
+    <div>
+        {% for route in template_list %}
+            <a href="/{{route}}">{{route}}</a><br>
+        {% endfor %}
+    </div>
+    {% endblock %}
 </body>
 </html>
