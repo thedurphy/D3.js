@@ -7,6 +7,12 @@
 {% endblock %}
 {% block content %}
 <body>
+    {% block nav %}
+    {{ super() }}
+    {% endblock %}
+    <!-- Import the data from flask -->
+    <meta id='data' data-data="{{ data.to_csv(index=False) }}">
+
     <!-- Bootstrap grid setup -->
     <div class="container">
         <div class="row">
@@ -17,7 +23,7 @@
 </body>
     <!-- Custom JS -->
     <script>
-        var temp = $('#data').data()['data'];
-        bar2d('name', 'height', temp, d3.csvParse);
+        // var temp = $('#data').data()['data'];
+        bar2d('name', 'height', $('#data').data()['data'], d3.csvParse);
     </script>
 {% endblock %}

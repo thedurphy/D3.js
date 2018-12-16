@@ -1,4 +1,11 @@
-<!DOCTYPE html>
+{% extends "base.html" %}
+{% block title %}
+    Lesson 22: Buildings Bar Plot
+{% endblock %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
 <meta charset="utf-8">
 <style>
     .link {
@@ -50,6 +57,9 @@
 </style>
 
 <body>
+    {% block nav %}
+    {{ super() }}
+    {% endblock %}
     <div class="container">
         <svg width="960" height="1100"></svg>
     </div>
@@ -256,3 +266,4 @@
         };
     }
 </script>
+{% endblock %}
