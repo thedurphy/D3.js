@@ -39,5 +39,20 @@ def lesson24_coffee_project():
                             data = data,
                             template_list = template_list)
 
+@app.route('/drilldown')
+def drilldown():
+    data = json.load(open("static/data/revenues.json"))
+    data = pd.DataFrame(data)
+    return render_template('projects/drilldown.html', 
+                            data = data,
+                            template_list = template_list)
+
+@app.route('/grouped_bar')
+def grouped_bar():
+    data = pd.read_csv('static/data/population.csv')
+    return render_template('projects/grouped_bar.html', 
+                            data = data,
+                            template_list = template_list)
+
 if __name__ == '__main__':
     app.run(port=3000, debug=True, threaded=True)

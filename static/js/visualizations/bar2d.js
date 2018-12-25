@@ -123,163 +123,163 @@ function bar2dv2(xVar,
     var width = width - margin.left - margin.right;
     var height = height - margin.top - margin.bottom;
     var chart = d3.select(element)
-    .append('svg')
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-    .attr("transform", `translate(${margin.left}, ${margin.top})`);
+        .append('svg')
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
     const xScale = d3.scaleBand()
-    .range([0, width])
-    .domain(data.map((d) => d[xVar]))
-    .paddingInner(0.3)
-    .paddingOuter(0.3);
+        .range([0, width])
+        .domain(data.map((d) => d[xVar]))
+        .paddingInner(0.3)
+        .paddingOuter(0.3);
 
     const yScale = d3.scaleLinear()
-    .range([height, 0])
-    .domain([0, d3.max(data, (d) => {return d[yVar]})]);
+        .range([height, 0])
+        .domain([0, d3.max(data, (d) => {return d[yVar]})]);
 
     const makeYLines = () => d3.axisLeft()
-    .scale(yScale)
+        .scale(yScale)
 
     chart.append('g')
-    .attr('class', 'x-axis')
-    .attr('transform', `translate(0, ${height})`)
-    .call(d3.axisBottom(xScale));
+        .attr('class', 'x-axis')
+        .attr('transform', `translate(0, ${height})`)
+        .call(d3.axisBottom(xScale));
 
     chart.append('g')
-    .attr('class', 'y-axis')
-    .call(d3.axisLeft(yScale));
+        .attr('class', 'y-axis')
+        .call(d3.axisLeft(yScale));
 
     chart.append('g')
-    .attr('class', 'grid')
-    .call(makeYLines()
-    .tickSize(-width, 0, 0)
-    .tickFormat('')
-    )
-    .attr('stroke-dasharray', '1 6')
-    .attr('stroke', '#FED966')
-    .attr('stroke-width', '1');
+        .attr('class', 'grid')
+        .call(makeYLines()
+            .tickSize(-width, 0, 0)
+            .tickFormat('')
+        )
+        .attr('stroke-dasharray', '1 6')
+        .attr('stroke', '#FED966')
+        .attr('stroke-width', '1');
 
     const barGroups = chart.selectAll()
-    .data(data)
-    .enter()
-    .append('g')
+        .data(data)
+        .enter()
+        .append('g')
 
     barGroups
-    .append('rect')
-    .attr('class', 'bar')
-    .attr('x', (d) => xScale(d[xVar]))
-    .attr('y', (d) => yScale(d[yVar]))
-    .attr('height', (d) => height - yScale(d[yVar]))
-    .attr('width', xScale.bandwidth())
-    .on('mouseenter', function (actual, i) {
-    d3.selectAll('.value')
-    .attr('opacity', 0)
+        .append('rect')
+        .attr('class', 'bar')
+        .attr('x', (d) => xScale(d[xVar]))
+        .attr('y', (d) => yScale(d[yVar]))
+        .attr('height', (d) => height - yScale(d[yVar]))
+        .attr('width', xScale.bandwidth())
+        .on('mouseenter', function (actual, i) {
+            d3.selectAll('.value')
+                .attr('opacity', 0)
 
-    d3.select(this)
-    .transition()
-    .duration(300)
-    .attr('opacity', 0.6)
-    .attr('x', (d) => xScale(d[xVar]) - 5)
-    .attr('width', xScale.bandwidth() + 10)
+            d3.select(this)
+                .transition()
+                .duration(300)
+                .attr('opacity', 0.6)
+                .attr('x', (d) => xScale(d[xVar]) - 5)
+                .attr('width', xScale.bandwidth() + 10)
 
-    const y = yScale(actual['revenue'])
+            const y = yScale(actual['revenue'])
 
-    line = chart.append('line')
-    .attr('id', 'limit')
-    .attr('x1', 0)
-    .attr('y1', y)
-    .attr('x2', width)
-    .attr('y2', y)
+            line = chart.append('line')
+                .attr('id', 'limit')
+                .attr('x1', 0)
+                .attr('y1', y)
+                .attr('x2', width)
+                .attr('y2', y)
 
-    barGroups.append('text')
-    .attr('class', 'divergence')
-    .attr('x', (d) => xScale(d[xVar]) + xScale.bandwidth() / 2)
-    .attr('y', (d) => {
-    if ((yScale(d[yVar]) + 30) >= (height-10)){
-    return yScale(d[yVar]) - 20
-    } else {
-    return yScale(d[yVar]) + 30
-    }
-    })
-    .attr('text-anchor', 'middle')
-    .text((d, idx) => {
-    const divergence = (d[yVar] - actual['revenue']).toFixed(1)
+            barGroups.append('text')
+                .attr('class', 'divergence')
+                .attr('x', (d) => xScale(d[xVar]) + xScale.bandwidth() / 2)
+                .attr('y', (d) => {
+                    if ((yScale(d[yVar]) + 30) >= (height-10)){
+                    return yScale(d[yVar]) - 20
+                    } else {
+                    return yScale(d[yVar]) + 30
+                    }
+                })
+                .attr('text-anchor', 'middle')
+                .text((d, idx) => {
+                    const divergence = (d[yVar] - actual['revenue']).toFixed(1)
 
-    let text = ''
-    if (divergence > 0) text += '+'
-    text += `${yUnit}${divergence}`
+                    let text = ''
+                    if (divergence > 0) text += '+'
+                    text += `${yUnit}${divergence}`
 
-    return idx !== i ? text : '';
-    })
-    .attr('fill', (d) => {
-    const divergence = (d[yVar] - actual['revenue']).toFixed(1)
-    if (divergence>0){
-    return 'green'
-    } else {
-    return 'red'
-    }
-    })
-    })
-    .on('mouseleave', function () {
-    d3.selectAll('.value')
-    .attr('opacity', 1)
+                    return idx !== i ? text : '';
+                })
+                .attr('fill', (d) => {
+                    const divergence = (d[yVar] - actual['revenue']).toFixed(1)
+                    if (divergence>0){
+                    return 'green'
+                    } else {
+                    return 'red'
+                    }
+                })
+        })
+        .on('mouseleave', function () {
+            d3.selectAll('.value')
+                .attr('opacity', 1)
 
-    d3.select(this)
-    .transition()
-    .duration(300)
-    .attr('opacity', 1)
-    .attr('x', (d) => xScale(d[xVar]))
-    .attr('width', xScale.bandwidth())
+            d3.select(this)
+                .transition()
+                .duration(300)
+                .attr('opacity', 1)
+                .attr('x', (d) => xScale(d[xVar]))
+                .attr('width', xScale.bandwidth())
 
-    chart.selectAll('#limit').remove()
-    chart.selectAll('.divergence').remove()
-    })
-    .attr('fill', bar_color)
+            chart.selectAll('#limit').remove()
+            chart.selectAll('.divergence').remove()
+        })
+        .attr('fill', bar_color)
 
     var x_border = d3.select("g.x-axis").node().getBoundingClientRect().height;
     var y_border = d3.select("g.y-axis").node().getBoundingClientRect().width;
 
     barGroups 
-    .append('text')
-    .attr('class', 'value')
-    .attr('x', (d) => xScale(d[xVar]) + xScale.bandwidth() / 2)
-    .attr('y', (d) => {
-    if ((yScale(d[yVar]) + 30) >= (height-10)){
-    return yScale(d[yVar]) - 5
-    } else {
-    return yScale(d[yVar]) + 30
-    }
-    })
-    .attr('text-anchor', 'middle')
-    .text((d) => `${yUnit}${d[yVar]}`)
+        .append('text')
+        .attr('class', 'value')
+        .attr('x', (d) => xScale(d[xVar]) + xScale.bandwidth() / 2)
+        .attr('y', (d) => {
+        if ((yScale(d[yVar]) + 30) >= (height-10)){
+        return yScale(d[yVar]) - 5
+        } else {
+        return yScale(d[yVar]) + 30
+        }
+        })
+        .attr('text-anchor', 'middle')
+        .text((d) => `${yUnit}${d[yVar]}`)
 
     chart
-    .append('text')
-    .attr('class', 'y axis-label')
-    .attr('x', -(height / 2))
-    .attr('y', -y_border-8)
-    .attr('transform', 'rotate(-90)')
-    .attr('text-anchor', 'middle')
-    .attr("font-size", "15px")
-    .text(yLabel)
+        .append('text')
+        .attr('class', 'y axis-label')
+        .attr('x', -(height / 2))
+        .attr('y', -y_border-8)
+        .attr('transform', 'rotate(-90)')
+        .attr('text-anchor', 'middle')
+        .attr("font-size", "15px")
+        .text(yLabel)
 
     chart.append('text')
-    .attr('class', 'x axis-label')
-    .attr('x', width / 2)
-    .attr('y', height + x_border + 16)
-    .attr('text-anchor', 'middle')
-    .attr("font-size", "15px")
-    .text(xLabel)
+        .attr('class', 'x axis-label')
+        .attr('x', width / 2)
+        .attr('y', height + x_border + 16)
+        .attr('text-anchor', 'middle')
+        .attr("font-size", "15px")
+        .text(xLabel)
 
     chart.append('text')
-    .attr('class', 'title')
-    .attr('x', width / 2)
-    .attr('y', -10)
-    .attr('text-anchor', 'middle')
-    .attr("font-size", "25px")
-    .text(title)
+        .attr('class', 'title')
+        .attr('x', width / 2)
+        .attr('y', -10)
+        .attr('text-anchor', 'middle')
+        .attr("font-size", "25px")
+        .text(title)
 
     // chart.append('text')
     //   .attr('class', 'source')
