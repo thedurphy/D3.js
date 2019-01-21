@@ -124,10 +124,10 @@ function bar2dv2(xVar,
     var height = height - margin.top - margin.bottom;
     var chart = d3.select(element)
         .append('svg')
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-        .append("g")
-        .attr("transform", `translate(${margin.left}, ${margin.top})`);
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+                .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
     const xScale = d3.scaleBand()
         .range([0, width])
@@ -265,7 +265,8 @@ function bar2dv2(xVar,
         .attr("font-size", "15px")
         .text(yLabel)
 
-    chart.append('text')
+    chart
+        .append('text')
         .attr('class', 'x axis-label')
         .attr('x', width / 2)
         .attr('y', height + x_border + 16)
@@ -273,7 +274,8 @@ function bar2dv2(xVar,
         .attr("font-size", "15px")
         .text(xLabel)
 
-    chart.append('text')
+    chart
+        .append('text')
         .attr('class', 'title')
         .attr('x', width / 2)
         .attr('y', -10)
